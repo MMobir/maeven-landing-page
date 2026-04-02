@@ -1,4 +1,5 @@
 import WaitlistForm from "./waitlist-form";
+import Logo from "./logo";
 
 export default function Footer() {
   return (
@@ -6,9 +7,7 @@ export default function Footer() {
       <div className="max-w-[1440px] mx-auto px-8 md:px-16 w-full">
         <div className="flex flex-col md:flex-row justify-between items-start gap-16 mb-24">
           <div className="space-y-6 max-w-sm">
-            <div className="text-3xl font-bold text-on-surface font-[family-name:var(--font-manrope)]">
-              Maeven
-            </div>
+            <Logo markSize={34} textClassName="text-3xl" />
             <p className="text-on-surface-variant text-lg">
               Reclaiming the mental space of mothers everywhere through
               empathetic automation.

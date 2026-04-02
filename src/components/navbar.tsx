@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Logo from "./logo";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -9,11 +10,8 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 glass-nav">
       <div className="flex justify-between items-center w-full px-8 md:px-16 py-6 max-w-[1440px] mx-auto">
-        <a
-          href="#"
-          className="text-2xl font-bold tracking-tight text-on-surface font-[family-name:var(--font-manrope)]"
-        >
-          Maeven
+        <a href="#">
+          <Logo markSize={28} />
         </a>
 
         <div className="hidden md:flex gap-10 items-center">

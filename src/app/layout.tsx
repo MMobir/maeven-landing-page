@@ -18,11 +18,13 @@ export const metadata: Metadata = {
   title: "Maeven | The Digital Concierge for Your Household",
   description:
     "Maeven is the AI Chief Operating Officer for your household. Dump your mental load, automate the groceries, and let Maeven manage the chores.",
+  metadataBase: new URL("https://maeven.co"),
   openGraph: {
     title: "Maeven | The Digital Concierge for Your Household",
     description:
       "Stop nagging. Start delegating. Maeven manages your household so you don't have to.",
     type: "website",
+    siteName: "Maeven",
   },
   twitter: {
     card: "summary_large_image",
