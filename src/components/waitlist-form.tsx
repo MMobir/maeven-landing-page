@@ -1,27 +1,45 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { joinWaitlist } from "@/app/actions/waitlist";
 
 interface WaitlistFormProps {
   variant: "hero" | "footer";
 }
 
+const TALLY_FORM_ID = process.env.NEXT_PUBLIC_TALLY_FORM_ID;
+
 export default function WaitlistForm({ variant }: WaitlistFormProps) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (!email) return;
 
     setStatus("loading");
+    setErrorMsg("");
 
-    // TODO: Replace with actual API endpoint (e.g. server action, Resend, Mailchimp, etc.)
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    const result = await joinWaitlist(email);
+
+    if (!result.success) {
+      setStatus("error");
+      setErrorMsg(result.error ?? "Something went wrong.");
+      setTimeout(() => setStatus("idle"), 4000);
+      return;
+    }
 
     setStatus("success");
-    setEmail("");
-    setTimeout(() => setStatus("idle"), 4000);
+
+    if (TALLY_FORM_ID) {
+      setTimeout(() => {
+        window.location.href = `https://tally.so/r/${TALLY_FORM_ID}?email=${encodeURIComponent(email)}`;
+      }, 600);
+    } else {
+      setEmail("");
+      setTimeout(() => setStatus("idle"), 4000);
+    }
   }
 
   if (variant === "hero") {
@@ -36,13 +54,20 @@ export default function WaitlistForm({ variant }: WaitlistFormProps) {
             placeholder="Your email address"
             className="w-full bg-transparent border-0 border-b border-outline-variant py-4 px-1 focus:ring-0 focus:border-primary transition-all text-lg placeholder:text-outline"
           />
+          {status === "error" && (
+            <p className="absolute -bottom-6 left-0 text-error text-sm">{errorMsg}</p>
+          )}
         </div>
         <button
           type="submit"
-          disabled={status === "loading"}
+          disabled={status === "loading" || status === "success"}
           className="primary-gradient text-on-primary px-8 py-4 rounded-xl font-semibold shadow-lg hover:opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
         >
-          {status === "loading" ? "Joining..." : status === "success" ? "You're in!" : "Join the Waitlist"}
+          {status === "loading"
+            ? "Joining..."
+            : status === "success"
+              ? "You're in! Redirecting..."
+              : "Join the Waitlist"}
           {status === "idle" && (
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -62,20 +87,29 @@ export default function WaitlistForm({ variant }: WaitlistFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-      <input
-        type="email"
-        required
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="email@example.com"
-        className="bg-surface-container py-3 px-6 rounded-xl border-0 focus:ring-2 focus:ring-primary min-w-[300px]"
-      />
+      <div className="relative">
+        <input
+          type="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="email@example.com"
+          className="bg-surface-container py-3 px-6 rounded-xl border-0 focus:ring-2 focus:ring-primary min-w-[300px]"
+        />
+        {status === "error" && (
+          <p className="absolute -bottom-6 left-0 text-error text-sm">{errorMsg}</p>
+        )}
+      </div>
       <button
         type="submit"
-        disabled={status === "loading"}
+        disabled={status === "loading" || status === "success"}
         className="primary-gradient text-on-primary px-8 py-3 rounded-xl font-semibold hover:opacity-90 transition-all disabled:opacity-60"
       >
-        {status === "loading" ? "Submitting..." : status === "success" ? "You're in!" : "Submit"}
+        {status === "loading"
+          ? "Submitting..."
+          : status === "success"
+            ? "You're in!"
+            : "Submit"}
       </button>
     </form>
   );
