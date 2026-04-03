@@ -28,9 +28,17 @@ export async function joinWaitlist(email: string): Promise<WaitlistResult> {
       }),
     });
 
+    if (res.status === 409) {
+      return { success: true };
+    }
+
     if (!res.ok) {
       const body = await res.text();
       console.error(`Loops API error (${res.status}):`, body);
+
+      if (res.status === 401) {
+        return { success: false, error: "Server configuration error." };
+      }
       return { success: false, error: "Could not join the waitlist. Please try again." };
     }
 

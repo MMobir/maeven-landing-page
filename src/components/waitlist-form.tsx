@@ -63,7 +63,7 @@ export default function WaitlistForm({ variant }: WaitlistFormProps) {
             <motion.form
               key="form"
               onSubmit={handleSubmit}
-              className="flex gap-[10px] max-w-[440px] w-full mb-4"
+              className="flex flex-col sm:flex-row gap-[10px] max-w-[440px] w-full mb-4"
             >
               <input
                 type="email"
