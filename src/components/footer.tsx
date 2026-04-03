@@ -1,51 +1,22 @@
-import WaitlistForm from "./waitlist-form";
-import Logo from "./logo";
-
 export default function Footer() {
   return (
-    <footer id="waitlist" className="bg-surface pt-24 pb-12">
-      <div className="max-w-[1440px] mx-auto px-8 md:px-16 w-full">
-        <div className="flex flex-col md:flex-row justify-between items-start gap-16 mb-24">
-          <div className="space-y-6 max-w-sm">
-            <Logo markSize={34} textClassName="text-3xl" />
-            <p className="text-on-surface-variant text-lg">
-              Reclaiming the mental space of mothers everywhere through
-              empathetic automation.
-            </p>
-          </div>
-          <div className="w-full md:w-auto">
-            <p className="text-sm uppercase tracking-widest text-on-surface font-bold mb-6">
-              Join the Waitlist
-            </p>
-            <WaitlistForm variant="footer" />
-          </div>
-        </div>
-
-        <div className="flex flex-col md:flex-row justify-between items-center pt-12 border-t border-outline-variant/30 gap-8">
-          <p className="text-on-surface-variant/40 text-xs uppercase tracking-widest">
-            &copy; {new Date().getFullYear()} Maeven. The Digital Concierge.
-          </p>
-          <div className="flex gap-8">
-            <a
-              href="#"
-              className="text-on-surface-variant/40 hover:text-primary transition-colors text-xs uppercase tracking-widest"
-            >
-              Privacy Policy
-            </a>
-            <a
-              href="#"
-              className="text-on-surface-variant/40 hover:text-primary transition-colors text-xs uppercase tracking-widest"
-            >
-              Terms of Service
-            </a>
-            <a
-              href="#"
-              className="text-on-surface-variant/40 hover:text-primary transition-colors text-xs uppercase tracking-widest"
-            >
-              Contact
-            </a>
-          </div>
-        </div>
+    <footer className="bg-charcoal px-6 md:px-12 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 flex-wrap">
+      <div className="font-[family-name:var(--font-cormorant)] font-light text-[22px] tracking-[0.12em] text-cream">
+        maeven
+      </div>
+      <div className="flex gap-6">
+        <a href="#" className="text-xs font-light text-white/40 no-underline tracking-[0.05em] transition-colors duration-200 hover:text-white/80">
+          Instagram
+        </a>
+        <a href="#" className="text-xs font-light text-white/40 no-underline tracking-[0.05em] transition-colors duration-200 hover:text-white/80">
+          TikTok
+        </a>
+        <a href="mailto:hello@maeven.app" className="text-xs font-light text-white/40 no-underline tracking-[0.05em] transition-colors duration-200 hover:text-white/80">
+          hello@maeven.app
+        </a>
+      </div>
+      <div className="text-[11px] text-white/25 font-light">
+        &copy; {new Date().getFullYear()} Maeven. All rights reserved.
       </div>
     </footer>
   );

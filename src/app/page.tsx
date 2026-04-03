@@ -1,8 +1,12 @@
 import Navbar from "@/components/navbar";
 import Hero from "@/components/hero";
 import SocialProof from "@/components/social-proof";
-import AhaMoment from "@/components/aha-moment";
+import Problem from "@/components/problem";
 import HowItWorks from "@/components/how-it-works";
+import Handles from "@/components/handles";
+import Quote from "@/components/quote";
+import Founder from "@/components/founder";
+import FinalCta from "@/components/final-cta";
 import Footer from "@/components/footer";
 
 export default function Home() {
@@ -11,8 +15,12 @@ export default function Home() {
       <Navbar />
       <Hero />
       <SocialProof />
-      <AhaMoment />
+      <Problem />
       <HowItWorks />
+      <Handles />
+      <Quote />
+      <Founder />
+      <FinalCta />
       <Footer />
     </>
   );

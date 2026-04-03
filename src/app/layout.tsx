@@ -1,36 +1,31 @@
 import type { Metadata } from "next";
-import { Inter, Manrope } from "next/font/google";
+import { DM_Sans, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
   display: "swap",
+  weight: ["300", "400", "500"],
 });
 
-const manrope = Manrope({
-  variable: "--font-manrope",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin"],
   display: "swap",
+  weight: ["300", "400", "500"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
-  title: "Maeven | The Digital Concierge for Your Household",
+  title: "maeven — the things in your head, handled.",
   description:
-    "Maeven is the AI Chief Operating Officer for your household. Dump your mental load, automate the groceries, and let Maeven manage the chores.",
-  metadataBase: new URL("https://maeven.co"),
+    "Maeven is the AI that notices what needs doing before you have to think about it. Birthdays, checkups, school deadlines, appointments — the invisible load, lifted.",
   openGraph: {
-    title: "Maeven | The Digital Concierge for Your Household",
+    title: "Maeven — The things living in your head, finally handled.",
     description:
-      "Stop nagging. Start delegating. Maeven manages your household so you don't have to.",
+      "The AI that notices what needs doing before you have to think about it. Join the waitlist for early access.",
     type: "website",
-    siteName: "Maeven",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Maeven | The Digital Concierge for Your Household",
-    description:
-      "Stop nagging. Start delegating. Maeven manages your household so you don't have to.",
   },
 };
 
@@ -40,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${manrope.variable}`}>
+    <html lang="en" className={`${dmSans.variable} ${cormorant.variable}`}>
       <body>{children}</body>
     </html>
   );

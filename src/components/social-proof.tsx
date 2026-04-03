@@ -2,21 +2,27 @@
 
 import { motion } from "framer-motion";
 
+const proofs = [
+  "Women spend 6–10 hrs/week on invisible family planning",
+  "Built by someone who felt it before the chaos hit",
+  "Free during early access",
+];
+
 export default function SocialProof() {
   return (
-    <section className="w-full bg-surface-container-low py-12">
-      <motion.div
-        className="max-w-[1440px] mx-auto px-8 md:px-16 text-center"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, amount: 0.5 }}
-        transition={{ duration: 0.8 }}
-      >
-        <p className="text-sm uppercase tracking-[0.2em] text-on-surface-variant/60 font-medium">
-          Built for the 80% of women carrying the invisible mental load of the
-          household.
-        </p>
-      </motion.div>
-    </section>
+    <motion.div
+      className="py-6 px-6 md:px-12 bg-warm-white border-t border-b border-stone flex items-center justify-center gap-12 flex-wrap"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+    >
+      {proofs.map((text, i) => (
+        <div key={i} className="flex items-center gap-[10px] text-[13px] text-charcoal-light font-light">
+          <div className="w-1.5 h-1.5 rounded-full bg-sage-light shrink-0" />
+          {text}
+        </div>
+      ))}
+    </motion.div>
   );
 }
