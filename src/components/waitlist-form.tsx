@@ -8,7 +8,15 @@ interface WaitlistFormProps {
   variant: "hero" | "final";
 }
 
-const TALLY_FORM_ID = process.env.NEXT_PUBLIC_TALLY_FORM_ID;
+function getTallyUrl(email: string): string | null {
+  const raw = process.env.NEXT_PUBLIC_TALLY_FORM_ID;
+  if (!raw) return null;
+
+  // Handle both bare IDs ("obd0YN") and full URLs someone might paste
+  const match = raw.match(/([A-Za-z0-9]+)$/);
+  const id = match ? match[1] : raw;
+  return `https://tally.so/r/${id}?email=${encodeURIComponent(email)}`;
+}
 
 export default function WaitlistForm({ variant }: WaitlistFormProps) {
   const [email, setEmail] = useState("");
@@ -32,14 +40,11 @@ export default function WaitlistForm({ variant }: WaitlistFormProps) {
     }
 
     setStatus("success");
-
-    if (TALLY_FORM_ID) {
-      setTimeout(() => {
-        window.location.href = `https://tally.so/r/${TALLY_FORM_ID}?email=${encodeURIComponent(email)}`;
-      }, 1200);
-    }
   }
 
+  const tallyUrl = getTallyUrl(email);
+
+  /* ── Hero variant (light background) ── */
   if (variant === "hero") {
     return (
       <div>
@@ -49,15 +54,45 @@ export default function WaitlistForm({ variant }: WaitlistFormProps) {
               key="success"
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex flex-col items-center gap-2 py-5"
+              className="flex flex-col items-center gap-3 py-5 max-w-[480px]"
             >
-              <div className="w-10 h-10 rounded-full bg-sage flex items-center justify-center text-white text-lg">✓</div>
-              <p className="font-[family-name:var(--font-cormorant)] text-xl font-light italic text-charcoal">
+              <div className="w-11 h-11 rounded-full bg-sage flex items-center justify-center text-white text-lg">
+                ✓
+              </div>
+              <p className="font-[family-name:var(--font-cormorant)] text-2xl font-light italic text-charcoal">
                 You&apos;re on the list.
               </p>
-              <p className="text-[13px] text-charcoal-light font-light">
-                {TALLY_FORM_ID ? "Redirecting to a quick survey..." : "We'll be in touch when early access opens."}
+              <p className="text-[13px] text-charcoal-light font-light leading-relaxed text-center">
+                We&apos;ll be in touch when it&apos;s your turn.
               </p>
+
+              {tallyUrl && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5, duration: 0.5 }}
+                  className="mt-3 flex flex-col items-center gap-2"
+                >
+                  <div className="w-12 h-px bg-stone-mid" />
+                  <p className="text-[13px] text-charcoal-mid font-light leading-relaxed text-center mt-1">
+                    Want <strong className="font-medium text-charcoal">priority access</strong>?
+                    <br />
+                    Answer a few quick questions so we can build Maeven around your life.
+                  </p>
+                  <a
+                    href={tallyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-1 inline-flex items-center gap-2 py-[10px] px-6 bg-charcoal text-cream rounded-full text-[13px] font-normal tracking-[0.04em] transition-all duration-200 hover:bg-clay-deep no-underline"
+                  >
+                    Unlock priority access
+                    <span className="text-[11px] opacity-60">→</span>
+                  </a>
+                  <p className="text-[11px] text-charcoal-light/60 font-light">
+                    Takes less than 2 minutes
+                  </p>
+                </motion.div>
+              )}
             </motion.div>
           ) : (
             <motion.form
@@ -95,6 +130,7 @@ export default function WaitlistForm({ variant }: WaitlistFormProps) {
     );
   }
 
+  /* ── Final CTA variant (sage background) ── */
   return (
     <div>
       <AnimatePresence mode="wait">
@@ -103,21 +139,51 @@ export default function WaitlistForm({ variant }: WaitlistFormProps) {
             key="success"
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col items-center gap-2 py-5"
+            className="flex flex-col items-center gap-3 py-5 max-w-[480px] mx-auto"
           >
-            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-sage text-lg">✓</div>
+            <div className="w-11 h-11 rounded-full bg-white flex items-center justify-center text-sage text-lg">
+              ✓
+            </div>
             <p className="font-[family-name:var(--font-cormorant)] text-[22px] font-light italic text-white">
               You&apos;re on the list.
             </p>
-            <p className="text-[13px] text-white/70 font-light">
-              {TALLY_FORM_ID ? "Redirecting to a quick survey..." : "We'll be in touch when early access opens."}
+            <p className="text-[13px] text-white/70 font-light leading-relaxed text-center">
+              We&apos;ll be in touch when it&apos;s your turn.
             </p>
+
+            {tallyUrl && (
+              <motion.div
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+                className="mt-3 flex flex-col items-center gap-2"
+              >
+                <div className="w-12 h-px bg-white/20" />
+                <p className="text-[13px] text-white/70 font-light leading-relaxed text-center mt-1">
+                  Want <strong className="font-medium text-white">priority access</strong>?
+                  <br />
+                  Answer a few quick questions so we can build Maeven around your life.
+                </p>
+                <a
+                  href={tallyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-1 inline-flex items-center gap-2 py-[10px] px-6 bg-white text-sage rounded-full text-[13px] font-medium tracking-[0.04em] transition-all duration-200 hover:bg-cream no-underline"
+                >
+                  Unlock priority access
+                  <span className="text-[11px] opacity-60">→</span>
+                </a>
+                <p className="text-[11px] text-white/40 font-light">
+                  Takes less than 2 minutes
+                </p>
+              </motion.div>
+            )}
           </motion.div>
         ) : (
           <motion.form
             key="form"
             onSubmit={handleSubmit}
-            className="flex gap-[10px] max-w-[420px] mx-auto mb-4"
+            className="flex flex-col sm:flex-row gap-[10px] max-w-[420px] mx-auto mb-4"
           >
             <input
               type="email"
